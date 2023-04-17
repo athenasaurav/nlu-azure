@@ -1,13 +1,13 @@
 version: '3'
 services:
     rasa:
-      container_name: "rasa_server"
+      container_name: "rasa_server_1"
       build: 
         context: backend
       ports: 
         - "5005:5005"
     action_server:
-      container_name: "action_server"
+      container_name: "action_server_1"
       build: 
         context: actions
       volumes:

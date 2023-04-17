@@ -4,13 +4,8 @@ rules:
 
 - rule: Say goodbye anytime the user says goodbye
   steps:
-  - intent: goodbye
-  - action: utter_goodbye
-
-- rule: Say 'I am a bot' anytime the user challenges
-  steps:
-  - intent: bot_challenge
-  - action: action_fallback
+  - intent: greet
+  - action: action_hello
 
 - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
   steps:

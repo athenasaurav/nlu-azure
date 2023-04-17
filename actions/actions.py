@@ -15,7 +15,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import Form, AllSlotsReset, Restarted
 
-class ActionHelloWorld(Action):
+class ActionFallback(Action):
 
     def name(self) -> Text:
         return "action_fallback"
@@ -25,7 +25,7 @@ class ActionHelloWorld(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         text="I am really sorry, I didn't get that. Can you please rephrase it? I am still learning. I am a bot who need more testers. I am connected to RASA NLU engine andd Azure api for voice."
-        url = "http://43.204.162.18:5006/generate"
+        url = "http://localhost:5006/generate"
 
         payload = json.dumps({
         "sentence": "{}".format(text),
@@ -42,3 +42,28 @@ class ActionHelloWorld(Action):
         return []
 
 
+class ActionHello(Action):
+
+    def name(self) -> Text:
+        return "action_hello"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        text="Hi i am calling from vodex. What do you want to know about our services?"
+        url = "http://localhost:5006/generate"
+
+        payload = json.dumps({
+        "sentence": "{}".format(text),
+        "speaker": "en-IN-NeerjaNeural"
+        })
+        headers = {
+        'Content-Type': 'application/json'
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+
+        response = response.json()
+        dispatcher.utter_message(text=response['url'])
+        return []
